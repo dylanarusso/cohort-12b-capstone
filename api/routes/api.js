@@ -21,24 +21,32 @@ router.get('/categories', async function(req, res, next) {
 });
 
 
-// GET - Fetch questions - /api/v1/categories/:categoryId/questions
-router.get('/categories/:categoryId/questions', async function(req, res, next) {
-    // Figure this part out
+// POST - Create questions - /api/v1/categories/:categoryId/questions
+router.post('/categories/:categoryId/questions', async function(req, res, next) {
+    let body = req.body;
+    body.categoryId = req.params.categoryId;
+    let question = await Question.create(body);
+    res.json(question);
 });
 
-// POST - Create questions - /api/v1/categories/:categoryId/questions
+// GET - Fetch questions - /api/v1/categories/:categoryId/questions
 router.get('/categories/:categoryId/questions', async function(req, res, next) {
-    // Figure this part out
+    let questions = await models.Question.findAll({where: {categoryId: req.params.categoryId}, include: [{model: Answer}]});
+    res.json(questions);
 });
 
 // GET - Fetch answers - /api/v1/questions/:questionId/answers
 router.get('/questions/:questionId/answers', async function(req, res, next) {
-    // Figure this part out
+    let answers = await Answer.findAll({where: {questionId: req.params.questionId}});
+    res.json(answers);
 });
 
 // POST - Create answers - /api/v1/questions/:questionId/answers
-router.get('/questions/:questionId/answers', async function(req, res, next) {
-    // Figure this part out
+router.post('/questions/:questionId/answers', async function(req, res, next) {
+    let body = req.body;
+    body.questionId = req.params.questionId;
+    let answer = await Answer.create(body);
+    res.json(answer);
 });
 
 
