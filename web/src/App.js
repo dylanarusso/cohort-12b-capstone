@@ -1,5 +1,18 @@
 import logo from './logo.svg';
+import {useEffect, useState} from 'react';
 import './App.css';
+import 'antd/dist/antd.css';
+import { Collapse, Modal } from 'antd';
+
+const { Panel } = Collapse;
+
+const text = `
+  A dog is a type of domesticated animal.
+  Known for its loyalty and faithfulness,
+  it can be found as a welcome guest in many households across the world.
+`;
+
+
 
 function App() {
   return (
