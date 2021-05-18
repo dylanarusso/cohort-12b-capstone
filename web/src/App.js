@@ -2,20 +2,24 @@ import logo from './logo.svg';
 import {useEffect, useState} from 'react';
 import './App.css';
 import 'antd/dist/antd.css';
-import { Collapse, Modal } from 'antd';
-
-const { Panel } = Collapse;
-
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
-
-
 
 function App() {
+
+  const [categories, setCategories] = useState();
+  const [selectedCategory, setSelectedCategory] = useState();
+
+  const fetchCategories = async () => {
+    let res = await fetch('http://localhost:3000/api/v1/categories')
+    let json = await res.json();
+    setCategories(json);
+  };
+
+  useEffect(() => {
+    fetchCategories()
+  }, [])
+
   return (
+
     <div>
       
         <div className={'grid grid-cols-12'}>
@@ -25,7 +29,18 @@ function App() {
             </div>
 
             <div className={'col-span-12 sm:col-span-3 md:col-span-2 border h-96 p-5 text-center bg-gray-300'}>
-              Box 1
+              
+            <ul>
+                    {categories && categories.map((category) => {
+                        return <li key={category.id}
+                                   onClick={() => {
+                                       setSelectedCategory(category.id)
+                                   }}
+                                   className={selectedCategory==category.id ? 'bg-gray-400 cursor-pointer p-12 border-b font-bold text-xl text-center' : 'cursor-pointer p-12 border-b font-bold text-xl text-center'}>{category.name}</li>
+                    })}
+                </ul>
+
+
             </div>
 
             <div className={'col-span-12 sm:col-span-9 md:col-span-10border h-96 p-5 text-center bg-gray-400'}>
@@ -35,7 +50,6 @@ function App() {
         </div>
 
     </div>
-
   );
 }
 
