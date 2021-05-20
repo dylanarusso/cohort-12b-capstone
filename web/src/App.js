@@ -2,11 +2,23 @@ import logo from './logo.svg';
 import {useEffect, useState} from 'react';
 import './App.css';
 import 'antd/dist/antd.css';
+import { Collapse, Modal } from 'antd';
+
+const { Panel } = Collapse;
+
+const text = `
+  A dog is a type of domesticated animal.
+  Known for its loyalty and faithfulness,
+  it can be found as a welcome guest in many households across the world.
+`;
 
 function App() {
 
   const [categories, setCategories] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedQuestion, setSelectedQuestion] = useState();
+
+  const [answers, setAnswers] = useState([]);
 
   const fetchCategories = async () => {
     let res = await fetch('http://localhost:3000/api/v1/categories')
@@ -17,6 +29,18 @@ function App() {
   useEffect(() => {
     fetchCategories()
   }, [])
+
+  const onChange = async (id) => {
+    setSelectedQuestion(id)
+    fetchAnswers(id)
+};
+
+const fetchAnswers = async (id) => {
+  let res = await fetch(`http://localhost:3000/api/v1/questions/${id || selectedQuestion}/answers`)
+  let json = await res.json();
+  console.log(json)
+  setAnswers(json);
+};
 
   return (
 
@@ -45,6 +69,22 @@ function App() {
 
             <div className={'col-span-12 sm:col-span-9 md:col-span-10border h-96 p-5 text-center bg-gray-400'}>
               Box 2
+
+            {!selectedCategory && <h1 className={'text-center text-2xl'}>Select a category to view the questions</h1>}
+            {!selectedCategory && <button className={'text-white pr-4 pl-4 pt-3 bg-blue-500 rounded cursor-pointer'}>New Question</button>}
+
+            {selectedCategory && <Collapse defaultActiveKey={['1']} onChange={onChange}>
+              <Panel header="This is panel header 1" key="1">
+                <p>{text}</p>
+              </Panel>
+              <Panel header="This is panel header 2" key="2">
+                <p>{text}</p>
+              </Panel>
+              <Panel header="This is panel header 3" key="3">
+                <p>{text}</p>
+              </Panel>
+              </Collapse>}
+
             </div>
 
         </div>
