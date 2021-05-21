@@ -23,21 +23,20 @@ router.get('/categories', async function(req, res, next) {
 
 // POST - Create questions - /api/v1/categories/:categoryId/questions
 router.post('/categories/:categoryId/questions', async function(req, res, next) {
-    let body = req.body;
-    body.categoryId = req.params.categoryId;
-    let question = await Question.create(body);
+    console.log('req.body', req.body);
+    let question = await models.Question.create({questionTxt: req.body.questionTxt, categoryId: req.params.categoryId});
     res.json(question);
 });
 
 // GET - Fetch questions - /api/v1/categories/:categoryId/questions
 router.get('/categories/:categoryId/questions', async function(req, res, next) {
-    let questions = await models.Question.findAll({where: {categoryId: req.params.categoryId}, include: [{model: Answer}]});
+    let questions = await models.Question.findAll({where: {categoryId: req.params.categoryId}});
     res.json(questions);
 });
 
 // GET - Fetch answers - /api/v1/questions/:questionId/answers
 router.get('/questions/:questionId/answers', async function(req, res, next) {
-    let answers = await Answer.findAll({where: {questionId: req.params.questionId}});
+    let answers = await Answer.findAll({where: {questionId: req.params.questionId}})
     res.json(answers);
 });
 
