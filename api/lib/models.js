@@ -2,6 +2,27 @@ const {Sequelize, DataTypes, Model} = require('sequelize');
 const {sequelize} = require('../lib/db');
 
 
+class User extends Model {
+
+}
+
+User.init({
+    // Model attributes are defined here
+    email: {
+        type: 'LONGTEXT',
+        // allowNull: false
+    },
+    password: {
+        type: 'LONGTEXT',
+        // allowNull: false
+    },
+}, {
+    // Other model options go here
+    sequelize, // We need to pass the connection instance
+    modelName: 'User', // We need to choose the model name
+});
+
+
 class Category extends Model {
 
 }
@@ -69,5 +90,5 @@ seedCategories();
 sequelize.sync({alter: true});
 
 module.exports = {
-    Category, Question, Answer
+    Category, Question, Answer, User
 };
