@@ -42,9 +42,7 @@ router.get('/questions/:questionId/answers', async function(req, res, next) {
 
 // POST - Create answers - /api/v1/questions/:questionId/answers
 router.post('/questions/:questionId/answers', async function(req, res, next) {
-    let body = req.body;
-    body.questionId = req.params.questionId;
-    let answer = await Answer.create(body);
+    let answer = await models.Answer.create({answerTxt: req.body.questionTxt, questionId: req.params.questionId});
     res.json(answer);
 });
 

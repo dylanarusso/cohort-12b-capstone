@@ -23,6 +23,7 @@ function App() {
 
   const [answers, setAnswers] = useState([]);
   const [answerTxt, setAnswerTxt] = useState('');
+  const [showNewAnswer, setShowNewAnswer] = useState(false);
 
   const fetchCategories = async () => {
     let res = await fetch(`http://localhost:3000/api/v1/categories`)
@@ -70,6 +71,23 @@ useEffect(() => {
   fetchQuestions();
   };
 
+  const createAnswer = async () => {
+    console.log('creating new answer')
+    console.log({answerTxt: setAnswerTxt})
+  let res = await fetch(`http://localhost:3000/api/v1/questions/${selectedCategory}/answers`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({answerTxt: setAnswerTxt})
+    })
+  let json = await res.json();
+  console.log(json)
+  setShowNewAnswer(false)
+  fetchAnswers();
+  };
+
+
 const fetchAnswers = async (id) => {
   let res = await fetch(`http://localhost:3000/api/v1/questions/${id || selectedQuestion}/answers`)
   let json = await res.json();
@@ -77,12 +95,7 @@ const fetchAnswers = async (id) => {
   setAnswers(json);
 };
 
-const createAnswer = async () => {
-  let res = await fetch(`http://localhost:3000/api/v1/questions/${selectedQuestion}/answers`)
-  let json = await res.json();
-  console.log(json)
-  setAnswerTxt(json);
-};
+
 
   return (
 
@@ -123,7 +136,7 @@ const createAnswer = async () => {
             <p>Once a user clicks on a new question button above, user should be able to see the new questions form here</p>
             <p>Once the user enters the information in the form and hits submit, you should fetch the questions for the category</p>
 
-            {selectedCategory && <Collapse onChange={onChange}>
+            {selectedCategory && <Collapse onChange={onChange} accordion>
                 {questions && questions.map((question) => {
                     return <Panel header={question.questionTxt} key={question.id}>
                         <input className={'border p-2 mb-2 w-1/3 block'} type="text" placeholder={'Start typing your answer for this question'} value={answerTxt} onChange={(event) => {
