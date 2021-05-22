@@ -2,7 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-const passport = require('passport');
+// const passport = require('passport');
 var logger = require('morgan');
 var cors = require('cors')
 
@@ -29,7 +29,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api/v1', passport.authenticate('jwt', { session: false }), apiRouter);
+app.use('/api/v1', apiRouter);
+// app.use('/api/v1', passport.authenticate('jwt', { session: false }), apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
