@@ -36,13 +36,13 @@ router.get('/categories/:categoryId/questions', async function(req, res, next) {
 
 // GET - Fetch answers - /api/v1/questions/:questionId/answers
 router.get('/questions/:questionId/answers', async function(req, res, next) {
-    let answers = await Answer.findAll({where: {questionId: req.params.questionId}})
+    let answers = await models.Answer.findAll({where: {questionId: req.params.questionId}})
     res.json(answers);
 });
 
 // POST - Create answers - /api/v1/questions/:questionId/answers
 router.post('/questions/:questionId/answers', async function(req, res, next) {
-    let answer = await models.Answer.create({answerTxt: req.body.questionTxt, questionId: req.params.questionId});
+    let answer = await models.Answer.create({answerTxt: req.body.answerTxt, questionId: req.params.questionId});
     res.json(answer);
 });
 

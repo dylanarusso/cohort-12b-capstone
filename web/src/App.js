@@ -74,15 +74,18 @@ useEffect(() => {
   const createAnswer = async () => {
     console.log('creating new answer')
     console.log({answerTxt: setAnswerTxt})
-  let res = await fetch(`http://localhost:3000/api/v1/questions/${selectedCategory}/answers`, {
+    console.log(selectedQuestion)
+    console.log({answerTxt:answerTxt})
+  let res = await fetch(`http://localhost:3000/api/v1/questions/${selectedQuestion}/answers`, {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
       },
-      body: JSON.stringify({answerTxt: setAnswerTxt})
+      body: JSON.stringify({answerTxt:answerTxt})
     })
   let json = await res.json();
   console.log(json)
+
   setShowNewAnswer(false)
   fetchAnswers();
   };
@@ -111,7 +114,7 @@ const fetchAnswers = async (id) => {
 
     <div className={'grid grid-cols-12 font-serif text-white'}>
         <div className={'col-span-12 border p-8 bg-gray-300'}>
-            <h1 className={'text-center text-2xl text-red-600'}>Question & Answer Forum</h1>
+            <h1 className={'text-center text-5xl text-red-600'}>Question & Answer Forum</h1>
 
         </div>
 

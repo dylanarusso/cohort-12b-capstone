@@ -78,11 +78,11 @@ Answer.belongsTo(Question, {foreignKey: 'questionId'});
 const seedCategories = async () => {
     let categories = await Category.findAll({})
     if(categories.length == 0){
-        await Category.create({name: 'Category 1'});
-        await Category.create({name: 'Category 2'});
-        await Category.create({name: 'Category 3'});
-        await Category.create({name: 'Category 4'});
-        await Category.create({name: 'Category 5'});
+        await Category.create({name: 'Sports'});
+        await Category.create({name: 'Technology'});
+        await Category.create({name: 'Video Games'});
+        await Category.create({name: 'TV Shows'});
+        await Category.create({name: 'Movies'});
     }
 };
 seedCategories();
